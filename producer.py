@@ -32,4 +32,8 @@ def get_data():
             buffer += line
         
 for data in get_data():
-    producer.send('socmed',json.dumps(data).encode('utf-8'))
+    if "crawler_target" in data:
+        socMedType = data["crawler_target"]["specific_resource_type"]
+    else:
+        socMedType = data["object"]["social_media"]
+    producer.send(socMedType,json.dumps(data).encode('utf-8'))
